@@ -4,7 +4,6 @@ import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -27,11 +26,14 @@ public class Division {
     @Column(name = "parent_id")
     private Integer parentId;
     @Column(name = "dt_from")
-    @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
     private LocalDate dtFrom;
     @Column(name = "dt_till")
     private LocalDate dtTill;
 
+    // Из-за магии спринга в эту переменную некоректно парсилось значение, поэтому пришлось переназвать, очевидно
+    // можно это отключить, но в рамках решения задачи я решил эту проблему тал.
+    // Так же, насколько я понял NumericBooleanType не очень работает с Postgres поэтому bit я заменил на integer
+    // Так же это значение, по моему мнению следует сделать неизменяемым, но в ТЗ этого не было, поэтому оставил так
     @Column(name = "is_system", columnDefinition = "INTEGER")
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean badChoiceOfName;

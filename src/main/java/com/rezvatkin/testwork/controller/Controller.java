@@ -18,9 +18,9 @@ public class Controller {
         return service.findAll();
     }
 
+    // Здесь в качестве примера обработки прокинул эксепшн
     @GetMapping("divisions/{divisionId}")
     public Division getDivision(@PathVariable int divisionId) {
-
         var division = service.findById(divisionId);
         if (division == null) {
             throw new RuntimeException("Division id not found - " + divisionId);
@@ -34,12 +34,14 @@ public class Controller {
         return division;
     }
 
+    // Очевидно, что в реальном приложении этот метод должен включтать в себя обработку ошибок и null
     @PutMapping("/divisions")
     public Division updateDivision(@RequestBody Division division) {
         service.update(division);
         return division;
     }
 
+    // Такую обработку сделал для наглядности и экономии времени
     @DeleteMapping("divisions/{divisionId}")
     public String deleteDivision(@PathVariable int divisionId){
         var tempDivision = service.findById(divisionId);
